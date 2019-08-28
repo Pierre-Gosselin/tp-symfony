@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,17 +16,43 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/products", name="product_index", methods={"GET"})
+     * @Route("/products/{page}", name="product_index", methods={"GET"}, requirements={"page"="\d+"})
+     * 
      */
-    public function list(ProductRepository $productRepository): Response
+    public function list(ProductRepository $productRepository, CategoryRepository $categoryRepository, $page = 1): Response
     {
+        $category = new Category();
+        dump($category);
+        
+        $products = $productRepository->findAll();
+        $categories = $categoryRepository->findAll();
+
+        $max_pages= ceil(count($products)/6);
+
+
+        $debut = ($page -1 )*6;
+        $fin = $debut+6;
+
+        if ($page * 6 > count($products))
+        {
+            $fin = count($products);
+        }
+
+        for ($i = $debut; $i < $fin; $i++)
+        {
+            $product[] = $products[$i];
+        }
+
         return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAll(),
+            'products' => $product,
+            'categories' => $categories,
+            'current_page' => $page,
+            'max_pages' => $max_pages,
         ]);
     }
 
     /**
-     * @Route("admin/products/new", name="product_new", methods={"GET","POST"})
+     * @Route("admin/new", name="product_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -64,9 +92,16 @@ class ProductController extends AbstractController
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if ($product != null)
+        {
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
 
+                return $this->redirectToRoute('product_index');
+            }
+        }
+        else
+        {
             return $this->redirectToRoute('product_index');
         }
 
@@ -77,7 +112,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("admin/products/delete/{id}", name="product_delete", methods={"DELETE"})
+     * @Route("admin/products/delete/{id}", name="product_delete", methods={"GET","DELETE"})
      */
     public function delete(Request $request, Product $product): Response
     {

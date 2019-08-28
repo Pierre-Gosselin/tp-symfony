@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Category;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -54,6 +55,11 @@ class Product
      * @ORM\Column(type="datetime")
      */
     private $date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
+     */
+    private $category;
 
     public function getId(): ?int
     {
@@ -136,6 +142,18 @@ class Product
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getCategory(): ?category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Proxies\__CG__\App\Entity\Category;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -82,5 +83,18 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+    public function find($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql ="SELECT *
+        FROM product
+        WHERE `category_id`=".$id;
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        // Retourne toujours un tableau de Product
+        $product = $stmt->fetchAll();
+        return $product;
     }
 }

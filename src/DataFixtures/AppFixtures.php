@@ -15,11 +15,21 @@ class AppFixtures extends Fixture
         // $product = new Product();
         // $manager->persist($product);
 
+        $categories = [];
+        for ( $i=0; $i<10; $i++)
+        {
+            $category = new Category();
+            $category->setName('Catégorie '.$i);
+            $manager->persist($category);
+            $categories[] = $category;
+        }
+
         for ( $i = 0; $i<50; $i++)
         {
             $product = new Product();
             $product->setName('Nom du produit '.$i);
             $product->setDescription('Description du produit '.$i);
+            $product->setCategory($categories[rand(0,4)]);
             $product->setPrice(rand(1000,1000000));
             $product->setHeart((bool)rand(0,1));
             $date = new DateTime('now');
@@ -27,12 +37,6 @@ class AppFixtures extends Fixture
             $manager->persist($product);
         }
 
-        for ( $i=0; $i<10; $i++)
-        {
-            $category = new Category();
-            $category->setName('Gatégorie '.$i);
-            $manager->persist($category);
-        }
 
         $manager->flush();
     }
