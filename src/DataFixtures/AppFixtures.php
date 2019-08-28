@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -24,6 +25,13 @@ class AppFixtures extends Fixture
             $date = new DateTime('now');
             $product->setDate($date);
             $manager->persist($product);
+        }
+
+        for ( $i=0; $i<10; $i++)
+        {
+            $category = new Category();
+            $category->setName('Gatégorie '.$i);
+            $manager->persist($category);
         }
 
         $manager->flush();
