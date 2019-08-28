@@ -3,50 +3,92 @@
 {% block title %}Product index{% endblock %}
 
 {% block body %}
-
-<section class="jumbotron text-center">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Catégorie</h1>
+            <p class="lead text-muted mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, veniam, eius aliquam quidem rem sunt nam quaerat facilis ex error placeat ipsa illo sed inventore soluta ipsum cumque atque ea?</p>
+        </div>
+    </section>
     <div class="container">
-        <h1 class="jumbotron-heading">Produit</h1>
-        <p class="lead text-muted mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro commodi aliquam veniam fuga suscipit itaque labore natus accusamus numquam, perferendis in? Incidunt libero dignissimos unde fuga voluptatem omnis accusamus delectus.</p>
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+                        <li class="breadcrumb-item"><a href="category.html">Catégorie</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Sous catégorie</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
     </div>
-</section>
-    <h1>Product index</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-3">
+                <div class="card bg-light mb-3">
+                    <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Catégories</div>
+                    <ul class="list-group category_block">
+                        <li class="list-group-item"><a href="category.html">Cras justo odio</a></li>
+                        <li class="list-group-item"><a href="category.html">Dapibus ac facilisis in</a></li>
+                        <li class="list-group-item"><a href="category.html">Morbi leo risus</a></li>
+                        <li class="list-group-item"><a href="category.html">Porta ac consectetur ac</a></li>
+                        <li class="list-group-item"><a href="category.html">Vestibulum at eros</a></li>
+                    </ul>
+                </div>
+                <div class="card bg-light mb-3">
+                    <div class="card-header bg-success text-white text-uppercase">Dernier produit</div>
+                    <div class="card-body">
+                        <img class="img-fluid" src="https://dummyimage.com/600x400/55595c/fff" />
+                        <h5 class="card-title">Produit</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                        <p class="bloc_left_price">99.00 &euro;</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Slug</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Heart</th>
-                <th>Date</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ product.id }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.slug }}</td>
-                <td>{{ product.description }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.heart ? 'Yes' : 'No' }}</td>
-                <td>{{ product.date ? product.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('product_show', {'slug': product.slug}) }}">show</a>
-                    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    {% for product in products %}
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card">
+                                <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+                                <div class="card-body">
+                                    <h4 class="card-title"><a href="product.html" title="View Product">{{ product.name }}</a></h4>
+                                    <p class="card-text">{{ product.description }}</p>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="btn btn-danger btn-block">{{ product.price }} &euro;</p>
+                                        </div>
+                                        <div class="col">
+                                            <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
 
-    <a href="{{ path('product_new') }}">Create new</a>
+                    <div class="col-12">
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Précédent</a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item active">
+                                    <a class="page-link" href="#">2</a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Suivant</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 {% endblock %}

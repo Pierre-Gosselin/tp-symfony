@@ -49,10 +49,10 @@
                     <h4 class="card-title text-center"><a href="product.html" title="View Product">Produit</a></h4>
                     <div class="row">
                         <div class="col">
-                            <p class="btn btn-danger btn-block">99.00 &euro;</p>
+                            <p class="btn btn-danger btn-block">{{ heartStrokeProduct.price }} &euro;</p>
                         </div>
                         <div class="col">
-                            <a href="product.html" class="btn btn-success btn-block">Voir</a>
+                            <a href="{{ path('product_show', {'slug': heartStrokeProduct.slug}) }}" class="btn btn-success btn-block">Voir</a>
                         </div>
                     </div>
                 </div>
@@ -61,8 +61,113 @@
     </div>
 </div>
 
-<div class="container">
-
+<div class="container mt-3 mb-4">
+    <div class="row">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-header bg-primary text-white text-uppercase">
+                    <i class="fa fa-trophy"></i> Produits aléatoires
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for product in products %}
+                        <div class="col-sm">
+                            <div class="card">
+                                <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+                                <div class="card-body">
+                                    <h4 class="card-title"><a href="product.html" title="View Product">{{ product.name}}</a></h4>
+                                    <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="btn btn-danger btn-block">{{ product.price}} &euro;</p>
+                                        </div>
+                                        <div class="col">
+                                            <a href="{{ path('cart',{'id': product.id}) }}" class="btn btn-success btn-block">Ajouter au panier</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="container mt-3 mb-4">
+    <div class="row">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-header bg-primary text-white text-uppercase">
+                    <i class="fa fa-trophy"></i> Meilleurs produits
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for bestProduct in bestProducts %}
+                        <div class="col-sm">
+                            <div class="card">
+                                <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+                                <div class="card-body">
+                                    <h4 class="card-title"><a href="product.html" title="View Product">{{ bestProduct.name}}</a></h4>
+                                    <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="btn btn-danger btn-block">{{ bestProduct.price}} &euro;</p>
+                                        </div>
+                                        <div class="col">
+                                            <a href="{{ path('cart',{'id': bestProduct.id}) }}" class="btn btn-success btn-block">Ajouter au panier</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-3">
+    <div class="row"> 
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-header bg-primary text-white text-uppercase">
+                    <i class="fa fa-star"></i> Derniers produits
+                </div>                           
+                <div class="card-body">         
+                    <div class="row">
+                        {% for lastProduct in lastProducts %}
+                        <div class="col-sm">
+                            <div class="card">
+                                <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+                                <div class="card-body">
+                                    <h4 class="card-title"><a href="product.html" title="View Product">{{ lastProduct.name}}</a></h4>
+                                    <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="btn btn-danger btn-block">{{ lastProduct.price }} &euro;</p>
+                                        </div>
+                                        <div class="col">
+                                            <a href="{{ path('cart',{'id': lastProduct.id}) }}" class="btn btn-success btn-block">Ajouter au panier</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+
+
+
 
 {% endblock %}

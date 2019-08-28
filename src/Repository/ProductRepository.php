@@ -47,4 +47,40 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findProduct()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql ="SELECT *
+        FROM product
+        ORDER BY RAND( )
+        LIMIT 4";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        // Retourne toujours un tableau de Product
+        $product = $stmt->fetchAll();
+        return $product;
+    }
+
+    public function findLastCreatedAt($chiffre)
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.date', 'ASC')
+            ->setMaxResults($chiffre)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findBestProduct()
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.heart =1')
+            ->setMaxResults(4)
+            ->orderBy('p.id','DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

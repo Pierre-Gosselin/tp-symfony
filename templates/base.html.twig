@@ -23,21 +23,19 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
+                {% set current_route = app.request.attributes.get('_route') %}
                 <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
                     <ul class="navbar-nav m-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ path("home") }}">Accueil</a>
+                        <li class="nav-item {% if current_route == 'home' %}active{% endif %}">
+                            <a class="nav-link" href="{{ path("home") }}" >Accueil</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% if current_route == 'product_index' %}active{% endif %}">
                             <a class="nav-link" href="{{ path("product_index") }}">Categories</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path("product_index") }}">Produit</a>
-                        </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% if current_route == 'cart' %}active{% endif %}">
                             <a class="nav-link" href="{{ path("cart") }}">Panier</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% if current_route == 'contact' %}active{% endif %}">
                             <a class="nav-link" href="{{ path("contact") }}">Contact</a>
                         </li>
                     </ul>
@@ -59,9 +57,7 @@
                 </div>
             </div>
         </nav>
-    <div class="container">
         {% block body %}{% endblock %}
-    </div>
         <!-- Footer -->
         <footer class="text-light">
             <div class="container">
