@@ -22,8 +22,6 @@ class ProductController extends AbstractController
      */
     public function list(ProductRepository $productRepository, CategoryRepository $categoryRepository, $page = 1): Response
     {
-        $category = new Category();
-        dump($category);
         
         $products = $productRepository->findAll();
         $categories = $categoryRepository->findAll();
@@ -43,6 +41,8 @@ class ProductController extends AbstractController
         {
             $product[] = $products[$i];
         }
+
+        
 
         return $this->render('product/index.html.twig', [
             'products' => $product,

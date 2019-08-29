@@ -2,44 +2,49 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
+use App\Service\SuperCart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 
 class CartController extends AbstractController
 {
     /**
-     * @Route("/cart", name="cart")
+     * @Route("/cart", name="cart_index")
      */
-    public function index(SessionInterface $session)
+    public function index(SuperCart $superCart)
     {
         
-        $products = $session->get('product');
+        $productCart = $superCart->get('productCart');
         
+        $prixTotal = $superCart->getSubtotal();
+
         return $this->render('cart/index.html.twig', [
-            'products' => $products,
+            'productCart' => $productCart,
+            'prixTotal' => $prixTotal,
         ]);
     }
 
 
 
     /**
-     * @Route("/cart/delete/", name="delete")
+     * @Route("/cart/delete/{id}", name="delete")
      */
-    public function deleteCart(SessionInterface $session)
+    public function deleteCart(Product $product, SuperCart $superCart)
     {
-        $session->remove('product');
-        return $this->render('cart/index.html.twig');
+        $superCart->delete($product);
+        return $this->redirectToRoute('cart_index');
     }
 
     /**
-     * @Route("/cart/{slug}", name="putCart")
+     * @Route("/cart/add/{id}", name="cart_add")
      */
-    public function putCart(SessionInterface $session, $slug)
+    public function putCart(Product $product, SuperCart $superCart)
     {
         // ON ajoute le nom de l'URL dans la session
-        $session->set('product', $slug);
+        $superCart->add($product);
 
-        return $this->render('cart/index.html.twig');
+        return $this->redirectToRoute('cart_index');
     }
 }
