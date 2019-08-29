@@ -84,7 +84,7 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    public function find($id)
+    public function findByCategory($id)
     {
         $conn = $this->getEntityManager()->getConnection();
         $sql ="SELECT *

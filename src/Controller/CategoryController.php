@@ -24,7 +24,7 @@ class CategoryController extends AbstractController
             dump($product->getName());
         }
 
-        $products = $productRepository->find($category->getId());
+        $products = $productRepository->findByCategory($category->getId());
         dump($products);
         return $this->render('category/index.html.twig',[
             'products' => $products,

@@ -7,6 +7,7 @@ use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,7 +55,7 @@ class ProductController extends AbstractController
     /**
      * @Route("admin/new", name="product_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, LoggerInterface $logger): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
@@ -64,6 +65,7 @@ class ProductController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($product);
             $entityManager->flush();
+            $logger->info('New product "'.$product->getName().'"');
 
             return $this->redirectToRoute('product_index');
         }
@@ -87,7 +89,7 @@ class ProductController extends AbstractController
     /**
      * @Route("admin/products/edit/{id}", name="product_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Product $product): Response
+    public function edit(Request $request, LoggerInterface $logger, Product $product): Response
     {
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
@@ -96,6 +98,7 @@ class ProductController extends AbstractController
         {
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
+                $logger->info('Edit product "'.$product->getName().'"');
 
                 return $this->redirectToRoute('product_index');
             }
@@ -114,11 +117,12 @@ class ProductController extends AbstractController
     /**
      * @Route("admin/products/delete/{id}", name="product_delete", methods={"GET","DELETE"})
      */
-    public function delete(Request $request, Product $product): Response
+    public function delete(Request $request, LoggerInterface $logger, Product $product): Response
     {
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($product);
+            $logger->alert('Delete product "'.$product->getName().'"');
             $entityManager->flush();
         }
 
