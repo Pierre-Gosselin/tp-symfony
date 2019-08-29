@@ -32,8 +32,9 @@ class AppFixtures extends Fixture
             $product->setCategory($categories[rand(0,4)]);
             $product->setPrice(rand(1000,1000000));
             $product->setHeart((bool)rand(0,1));
-            $date = new DateTime('now');
-            $product->setDate($date);
+            //$date = new DateTime('now');
+            $randomDate = rand(time() * 60 * 60 * 24 *7, time());
+            $product->setDate(new \DateTime('@'.$randomDate));
             $manager->persist($product);
         }
 

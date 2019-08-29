@@ -51,7 +51,15 @@
                         </div>
                         <a class="btn btn-success btn-sm ml-3" href="cart.html">
                             <i class="fa fa-shopping-cart"></i> Panier
-                            <span class="badge badge-light">3</span>
+                            <span class="badge badge-light">
+                            {% if products is defined %}
+                                1
+                            {% else %}
+                                0
+                            {% endif %}
+                            
+                            
+                            </span>
                         </a>
                     </form>
                 </div>

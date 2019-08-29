@@ -51,23 +51,22 @@ class ProductRepository extends ServiceEntityRepository
 
     public function findProduct()
     {
-        $conn = $this->getEntityManager()->getConnection();
+        $db = $this->getEntityManager()->getConnection();
         $sql ="SELECT *
         FROM product
-        ORDER BY RAND( )
+        ORDER BY RAND()
         LIMIT 4";
 
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
+        $query = $db->prepare($sql);
+        $query->execute();
         // Retourne toujours un tableau de Product
-        $product = $stmt->fetchAll();
-        return $product;
+        return $query->fetchAll();
     }
 
-    public function findLastCreatedAt($chiffre)
+    public function findLastCreatedAt(int $chiffre)
     {
         return $this->createQueryBuilder('p')
-            ->orderBy('p.date', 'ASC')
+            ->orderBy('p.date', 'DESC')
             ->setMaxResults($chiffre)
             ->getQuery()
             ->getResult()
@@ -77,13 +76,13 @@ class ProductRepository extends ServiceEntityRepository
     public function findBestProduct()
     {
         return $this->createQueryBuilder('p')
-            ->where('p.heart =1')
+            ->andWhere('p.heart = 1')
             ->setMaxResults(4)
-            ->orderBy('p.id','DESC')
             ->getQuery()
             ->getResult()
         ;
     }
+
     public function findByCategory($id)
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -97,4 +96,8 @@ class ProductRepository extends ServiceEntityRepository
         $product = $stmt->fetchAll();
         return $product;
     }
+
+
+
+
 }

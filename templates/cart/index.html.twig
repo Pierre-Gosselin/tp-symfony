@@ -26,16 +26,16 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                            {% if products is defined %}
                             <tr>
                                 <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
                                 <td>{{ products }}</td>
                                 <td>En stock</td>
                                 <td><input class="form-control" type="text" value="1" /></td>
                                 <td class="text-right">124,90 €</td>
-                                <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
+                                <td class="text-right"><a class="btn btn-sm btn-danger" href="{{ path('delete') }}" ><i class="fa fa-trash"></i> </a> </td>
                             </tr>
-
+                            {% endif %}
                             <tr>
                                 <td></td>
                                 <td></td>

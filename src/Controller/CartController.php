@@ -21,6 +21,17 @@ class CartController extends AbstractController
         ]);
     }
 
+
+
+    /**
+     * @Route("/cart/delete/", name="delete")
+     */
+    public function deleteCart(SessionInterface $session)
+    {
+        $session->remove('product');
+        return $this->render('cart/index.html.twig');
+    }
+
     /**
      * @Route("/cart/{slug}", name="putCart")
      */
